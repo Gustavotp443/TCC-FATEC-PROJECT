@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size;
 
 
 @Embeddable
-public abstract class Endereco {
+public class Address {
 	
 	@NotBlank(message="Name cannot be empty")
 	@Size(min=3,max=50,message = "Name must be between 3 and 50 characters")
@@ -36,7 +36,26 @@ public abstract class Endereco {
 	@Size(min=3,max=50,message = "State must be between 3 and 50 characters")
 	private String state;
 	
+	public Address() {}
 	
+	
+	public Address(
+			@NotBlank(message = "Name cannot be empty") @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters") String street,
+			@NotNull(message = "Number cannot be null") Integer number,
+			@NotBlank(message = "Cep cannot be empty") @Pattern(regexp = "/^[0-9]{5}-[0-9]{3}$/") String cep,
+			@NotBlank(message = "District cannot be empty") @Size(min = 3, max = 50, message = "District must be between 3 and 50 characters") String district,
+			@NotBlank(message = "District cannot be empty") @Size(min = 3, max = 50, message = "District must be between 3 and 50 characters") String city,
+			@NotBlank(message = "State cannot be empty") @Size(min = 3, max = 50, message = "State must be between 3 and 50 characters") String state) {
+		super();
+		this.street = street;
+		this.number = number;
+		this.cep = cep;
+		this.district = district;
+		this.city = city;
+		this.state = state;
+	}
+
+
 	public String getStreet() {
 		return street;
 	}
@@ -93,7 +112,7 @@ public abstract class Endereco {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Endereco other = (Endereco) obj;
+		Address other = (Address) obj;
 		return Objects.equals(cep, other.cep) && Objects.equals(city, other.city)
 				&& Objects.equals(district, other.district) && Objects.equals(number, other.number)
 				&& Objects.equals(state, other.state) && Objects.equals(street, other.street);

@@ -1,7 +1,11 @@
 package com.project.sports.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
@@ -13,6 +17,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
@@ -41,6 +48,13 @@ public class Student implements Serializable{
 	@ManyToOne
 	@NotBlank(message="Institute cannot be empty")
 	private Institute institute;
+	
+	@ManyToMany
+	@JoinTable(
+			name="tb_students_sports",
+			joinColumns= @JoinColumn(name="student_id"),
+			inverseJoinColumns = @JoinColumn(name="sport_id"))
+	private Set<Sport> sports = new HashSet<>();
 
 	
 	public Student() {}
@@ -98,6 +112,26 @@ public class Student implements Serializable{
 
 	public void setInstitute(Institute institute) {
 		this.institute = institute;
+	}
+
+
+
+
+	public List<Sport> getSports() {
+		List<Sport> list = new ArrayList<>();
+		sports.stream().map(x-> list.add(x));
+		return list;
+	}
+
+
+
+
+	public void addSports(Sport sport) {
+		sports.add(sport);
+	}
+	
+	public void removeSport(Sport sport) {
+		sports.stream().filter(x-> x.equals(sport)).map(x-> sports.remove(x));
 	}
 
 

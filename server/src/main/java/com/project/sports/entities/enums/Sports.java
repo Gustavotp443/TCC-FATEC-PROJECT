@@ -1,6 +1,6 @@
 package com.project.sports.entities.enums;
 
-public enum Sport {
+public enum Sports {
 	Futebol,
 	Futsal,
 	Basquetebol,

@@ -29,13 +29,16 @@ public class Institute extends User{
 	@OneToMany
 	private Set<Teacher> teachers = new HashSet<>();
 	
+	@OneToMany
+	private Set<Court> courts = new HashSet<>();
+	
 	@Embedded
 	@Valid
-	private Endereco endereco;
+	private Address endereco;
 
 	public Institute() {}
 
-	public Institute(Long id, String email, String password, String name, Endereco endereco) {
+	public Institute(Long id, String email, String password, String name, Address endereco) {
 		super(id, email, password);
 		this.name = name;
 		this.endereco = endereco;
@@ -54,11 +57,11 @@ public class Institute extends User{
 		this.name = name;
 	}
 
-	public Endereco getEndereco() {
+	public Address getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(Address endereco) {
 		this.endereco = endereco;
 	}
 
@@ -102,6 +105,30 @@ public class Institute extends User{
 			}
 		}
 	}
+	
+	
+	public void addCourt(Court court) {
+		courts.add(court);
+	}
+	
+	public void removeCourt(Court local) {
+		for (Court court : courts) {
+			if(court.equals(local)) {
+				courts.remove(court);
+			}
+		}
+	}
+	
+	public List<Court> getCourt() {
+		List<Court> list = new ArrayList<>();
+		for (Court court : courts) {
+			list.add(court);
+		}
+		return list;
+	}
+
+	
+
 	
 	@Override
 	public String toString() {
