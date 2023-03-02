@@ -1,10 +1,15 @@
 package com.project.sports.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,8 +36,8 @@ public class Teacher implements Serializable{
 	@ManyToOne
 	private Institute institute;
 	
-	@OneToMany
-	private Sport sport;
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "teacher")
+	private Set<Sport> sports = new HashSet<>() ;
 	
 	public Teacher() {}
 
@@ -69,7 +74,25 @@ public class Teacher implements Serializable{
 		this.institute = institute;
 	}
 	
+	public List<Sport> getSport() {
+		List<Sport> list = new ArrayList<>();
+		for (Sport sport : sports) {
+			list.add(sport);
+		}
+		return list;
+	}
+
+	public void addSport(Sport sport) {
+		sports.add(sport);
+	}
 	
+	public void removeSport(Sport sport) {
+		for (Sport item : sports) {
+			if(sport.equals(item)) {
+				sports.remove(item);
+			}
+		}
+	}
 
 	@Override
 	public String toString() {

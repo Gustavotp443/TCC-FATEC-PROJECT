@@ -11,9 +11,10 @@ import com.project.sports.entities.Address;
 import com.project.sports.entities.Court;
 import com.project.sports.entities.Institute;
 import com.project.sports.entities.Sport;
+import com.project.sports.entities.Student;
 import com.project.sports.entities.Teacher;
-import com.project.sports.entities.User;
 import com.project.sports.entities.enums.Sports;
+import com.project.sports.entities.enums.StudentLevel;
 import com.project.sports.repositories.CourtRepository;
 import com.project.sports.repositories.InstituteRepository;
 import com.project.sports.repositories.SportRepository;
@@ -43,16 +44,28 @@ public class TestConfig implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		
 		Institute i1 = new Institute(null, "saojose@gmail.com", "123456", "Sao Jose", new Address("Rua santos",500,"09132-510","Santo","Santos","São Paulo"));
+		instituteRepository.saveAll(Arrays.asList(i1));
+		
 		
 		Court c1 = new Court(null, "Quadra principal", i1);
 		courtRepository.saveAll(Arrays.asList(c1));
 		
 		Teacher t1 = new Teacher(null, "Joao", i1);
+		teacherRepository.saveAll(Arrays.asList(t1));
 		
-		Sport s1 = new Sport(null, Sports.Basquetebol);
-		s1.setCourt(c1);
 		
-		instituteRepository.saveAll(Arrays.asList(i1));
+		Student st1 = new Student(null, "Carlos", StudentLevel.Segundo_ano , "A" , i1);
+		studentRepository.saveAll(Arrays.asList(st1));
+		
+		Sport sp1 = new Sport(null, Sports.Basquetebol, c1, t1);
+		sportRepository.saveAll(Arrays.asList(sp1));
+		
+		sp1.addStudent(st1);
+		sportRepository.saveAll(Arrays.asList(sp1));
+		
+		st1.addSport(sp1);
+		studentRepository.saveAll(Arrays.asList(st1));
+		
 		
 		
 	}

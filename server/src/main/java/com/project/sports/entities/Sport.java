@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.sports.entities.enums.Sports;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,11 +17,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="tb_sport")
@@ -30,7 +29,7 @@ public class Sport implements Serializable{
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
-	@NotBlank(message="Sport name cannot be empty")
+//	@NotBlank(message="Sport name cannot be empty")
 	private Sports name;
 	
 	@Valid
@@ -38,12 +37,13 @@ public class Sport implements Serializable{
 	private Court court;
 	
 	@Valid
-	@OneToOne
+	@ManyToOne
 	private Teacher teacher;
 	
 
 	@Valid
-	@ManyToMany(mappedBy="sports")
+	@JsonIgnore
+	@ManyToMany(cascade=CascadeType.ALL,mappedBy="sports")
 	private Set<Student> students = new HashSet<>();
 
 	public Sport() {}
@@ -51,11 +51,12 @@ public class Sport implements Serializable{
 	
 
 
-	public Sport(Long id, @NotBlank(message = "Sport name cannot be empty") Sports name) {
+	public Sport(Long id,  Sports name, Court court, Teacher teacher) {
 		super();
 		this.id = id;
 		this.name = name;
-
+		this.court=court;
+		this.teacher=teacher;
 	}
 
 
@@ -95,7 +96,7 @@ public class Sport implements Serializable{
 		return students;
 	}
 
-	public void addStudents(Student student) {
+	public void addStudent(Student student) {
 		students.add(student);
 	}
 

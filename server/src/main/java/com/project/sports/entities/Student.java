@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.project.sports.entities.enums.StudentLevel;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -49,7 +50,7 @@ public class Student implements Serializable{
 	@NotBlank(message="Institute cannot be empty")
 	private Institute institute;
 	
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="tb_students_sports",
 			joinColumns= @JoinColumn(name="student_id"),
@@ -117,23 +118,25 @@ public class Student implements Serializable{
 
 
 
-	public List<Sport> getSports() {
+	public List<Sport> getSport() {
 		List<Sport> list = new ArrayList<>();
-		sports.stream().map(x-> list.add(x));
+		for (Sport sport : sports) {
+			list.add(sport);
+		}
 		return list;
 	}
 
-
-
-
-	public void addSports(Sport sport) {
+	public void addSport(Sport sport) {
 		sports.add(sport);
 	}
 	
 	public void removeSport(Sport sport) {
-		sports.stream().filter(x-> x.equals(sport)).map(x-> sports.remove(x));
+		for (Sport item : sports) {
+			if(sport.equals(item)) {
+				sports.remove(item);
+			}
+		}
 	}
-
 
 
 

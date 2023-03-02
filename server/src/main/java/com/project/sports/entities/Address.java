@@ -21,7 +21,7 @@ public class Address {
 	private Integer number;
 	
 	@NotBlank(message="Cep cannot be empty")
-	@Pattern(regexp="/^[0-9]{5}-[0-9]{3}$/")
+//	@Pattern(regexp="/^[0-9]{5}-[0-9]{3}$/")
 	private String cep;
 	
 	@NotBlank(message="District cannot be empty")

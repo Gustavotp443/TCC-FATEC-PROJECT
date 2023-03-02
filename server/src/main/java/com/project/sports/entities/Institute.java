@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -23,13 +24,13 @@ public class Institute extends User{
 	@Size(min=3,max=50,message = "Name must be between 3 and 50 characters")
 	private String name;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "institute")
 	private Set<Student> students = new HashSet<>();
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "institute")
 	private Set<Teacher> teachers = new HashSet<>();
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "institute")
 	private Set<Court> courts = new HashSet<>();
 	
 	@Embedded

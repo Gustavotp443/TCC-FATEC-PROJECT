@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class Court implements Serializable{
 	@Size(min=3,max=50,message = "Name must be between 3 and 50 characters")
 	private String name;
 	
-	@OneToMany(mappedBy="id.court")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="court")
 	private Set<Sport> sports = new HashSet<>();
 	
 	@ManyToOne
